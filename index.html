@@ -701,7 +701,7 @@
         </div>
       </div>
       <div class="about-body" id="aboutBodyDisplay">
-        <p>Welcome. This is a personal space where I put down thoughts I'd otherwise lose — observations, half-formed ideas, things I'm reading, and occasionally something I actually finished thinking through.</p>
+        <p>Welcome. This is a personal space where I put down thoughts I'd otherwise lose — observations, half-formed ideas, things I'm reading, and occasionally something I actually finished thinki[...]
         <p>I write because it's the only way I know how to understand what I believe. The audience is mostly future me, but if something resonates with you, all the better.</p>
         <p>You can reach me on <a href="https://github.com" style="color: var(--accent);">GitHub</a> — the source for this blog lives there too.</p>
       </div>
@@ -773,15 +773,17 @@ let currentPage = 'home';
 function init() {
   // Apply config
   document.title = CONFIG.blogName;
-  document.getElementById('blogNameDisplay').textContent = CONFIG.blogName;
   document.getElementById('sidebarNameDisplay').textContent = CONFIG.authorName;
   document.getElementById('aboutNameDisplay').textContent = CONFIG.authorName;
-  document.getElementById('sidebarBioDisplay').textContent = CONFIG.bio;
   document.getElementById('aboutTaglineDisplay').textContent = CONFIG.tagline;
 
-  // Load saved avatar
+  // Load saved avatar from localStorage first, fallback to repo image
   const savedAvatar = localStorage.getItem('blog-avatar');
-  if (savedAvatar) setAllAvatars(savedAvatar);
+  if (savedAvatar) {
+    setAllAvatars(savedAvatar);
+  } else {
+    setAllAvatars('images/profile.jpg');
+  }
 
   renderFeed();
   renderTopics();
