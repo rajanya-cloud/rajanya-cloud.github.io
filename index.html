@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Blog</title>
+<title>Marine Biologist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -665,7 +665,7 @@
         <img id="navAvatarImg" src="" alt="">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       </div>
-      <span class="blog-name" id="blogNameDisplay">Your Blog</span>
+
     </a>
     <div class="nav-links">
       <a href="#" class="nav-link active" id="nav-home" onclick="showPage('home'); return false;">Writing</a>
@@ -696,7 +696,7 @@
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.6)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
         <div>
-          <div class="about-name" id="aboutNameDisplay">Your Name</div>
+          <div class="about-name" id="aboutNameDisplay">Marine Biologist</div>
           <div class="about-tagline" id="aboutTaglineDisplay">Writing on things that matter to me.</div>
         </div>
       </div>
@@ -726,9 +726,8 @@
         <div class="avatar-hint">Change</div>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.6)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       </div>
-      <div class="sidebar-name" id="sidebarNameDisplay">Your Name</div>
-      <div class="sidebar-bio" id="sidebarBioDisplay">Personal writing. No newsletter, no ads — just posts.</div>
-      <a href="#" class="sidebar-edit-link" onclick="openUpload(); return false;">+ Add profile picture</a>
+      <div class="sidebar-name" id="sidebarNameDisplay">Marine Biologist</div>
+<a href="#" class="sidebar-edit-link" onclick="openUpload(); return false;">+ Add profile picture</a>
     </div>
 
     <div class="sidebar-section">
@@ -747,99 +746,24 @@
 // ─── POSTS DATA — edit this to add your posts ───────────────────────────────
 // To add a post: copy one object, change the fields, save the file.
 const POSTS = [
-  {
-    id: 1,
-    title: "On writing badly, and doing it anyway",
-    subtitle: "The first draft is always embarrassing. That's not a problem — it's the whole point.",
-    tag: "Writing",
-    date: "May 28, 2025",
-    readTime: "4 min read",
-    excerpt: "Every piece I've ever written started as something I was ashamed to show anyone. The gap between what you know is good and what you can currently make — that gap is the thing that either stops you or pushes you.",
-    body: `
-      <p>Every piece I've ever written started as something I was ashamed to show anyone. There's a quote attributed to Ira Glass that describes this better than I can: the gap between your taste and your ability. You got into writing because your taste is good. You can recognize quality. And for a long time, your work doesn't meet it.</p>
-      <p>Most people stop there. I almost did.</p>
-      <h2>The first draft is a placeholder</h2>
-      <p>The purpose of a first draft is not to be good. It's to exist. Once words are on a page, you have material to work with. The blank page has no such affordance.</p>
-      <p>I started keeping a rule: close the tab, open a new document, write for 20 minutes without deleting. Whatever comes out is the first draft. It will be bad. That's allowed.</p>
-      <blockquote>You can't edit a blank page. The worst thing you wrote today is infinitely better than the best thing you didn't write.</blockquote>
-      <p>The second draft is where the work actually begins. Cut the preamble. Sharpen the sentences. Find the real claim hiding inside the vague one.</p>
-      <h2>Showing it anyway</h2>
-      <p>The other thing that helped was deciding that "finished" and "perfect" are different categories. Something can be finished without being perfect. In fact, perfect things are almost never finished — they're just abandoned at a different point in the revision cycle.</p>
-      <p>Publishing bad writing in public is uncomfortable. It's also the fastest way I know to get better. The feedback loop tightens dramatically when real people read your work instead of the imaginary readers in your head.</p>
-      <hr>
-      <p>Write badly. Publish anyway. The good stuff compounds over time.</p>
-    `
-  },
-  {
-    id: 2,
-    title: "Three things I learned from keeping a reading log",
-    subtitle: "Notes on what tracking your reading actually reveals about yourself.",
-    tag: "Reading",
-    date: "April 14, 2025",
-    readTime: "6 min read",
-    excerpt: "I've kept a reading log for two years now — just a plain text file with the title, author, date finished, and a few sentences of reaction. The main thing it taught me was how little I retained without it.",
-    body: `
-      <p>I've kept a reading log for two years now. Nothing fancy — a plain text file with the title, author, date finished, and a few sentences of immediate reaction. No star ratings. No summaries. Just a brief note written while the book was still warm.</p>
-      <p>Some things I've learned:</p>
-      <h2>1. You forget almost everything</h2>
-      <p>This is the uncomfortable one. Looking back at books I read 18 months ago, I find notes describing scenes I have no memory of. Entire arguments have evaporated. What remains are impressions — a mood, a phrase, a feeling about whether the book was worth it.</p>
-      <p>Writing the note doesn't fix this entirely, but it leaves a hook. When I re-read my entry, some things come back.</p>
-      <h2>2. Your taste is more consistent than you think</h2>
-      <p>After two years of notes, I can see patterns. I'm consistently drawn to books written in the first person, to work that takes ideas seriously without being academic, and to authors who seem to have actually lived their subject rather than researched it.</p>
-      <p>This is useful. I now trust those patterns enough to use them as a filter before starting something new.</p>
-      <h2>3. The log changes how you read</h2>
-      <p>Knowing you'll write a note makes you slightly more alert while reading. Not critically alert — more like attentive. You start noticing when something lands particularly well, or when a chapter goes slack.</p>
-      <blockquote>The best reading is already a form of conversation. The log just gives you someone to talk to afterward — your past self.</blockquote>
-      <p>The format I use: one sentence on what the book is, one sentence on what surprised me, one sentence on whether I'd recommend it and to whom. Ninety seconds of writing that I've been grateful for dozens of times.</p>
-    `
-  },
-  {
-    id: 3,
-    title: "Why I deleted Twitter and what I replaced it with",
-    subtitle: "Not a lecture. Just what happened.",
-    tag: "Tech",
-    date: "March 3, 2025",
-    readTime: "3 min read",
-    excerpt: "I was checking it first thing in the morning and last thing at night. Not because I wanted to — just because the motion had become automatic, like reaching for a light switch.",
-    body: `
-      <p>I was checking Twitter first thing in the morning and last thing at night. Not because I wanted to — just because the motion had become automatic. Thumb moves, app opens. Like reaching for a light switch when you leave a room.</p>
-      <p>The content had also shifted. The ratio of things I was glad I read to things that just made me vaguely agitated had inverted somewhere over the past year. I wasn't learning much. I was mostly just absorbing other people's reactions to the news.</p>
-      <h2>What I did</h2>
-      <p>I deleted the app. Not my account — just the app. The friction of opening a browser, navigating to the site, and logging in was enough to interrupt the automatic motion.</p>
-      <p>For about two weeks I missed it. Mostly during commutes and waiting in lines — the dead time I'd been filling with scroll. I picked up a book instead. Old habit, remembered.</p>
-      <h2>What I replaced it with</h2>
-      <p>RSS. Specifically, a feed of maybe 15 blogs and newsletters from people I'd found interesting over the years. They post infrequently. The writing is longer. The incentive structure isn't optimized for outrage.</p>
-      <p>It's a worse product in every measurable way — slower, fewer updates, no replies, no virality. I find it much more enjoyable.</p>
-      <hr>
-      <p>I'm not recommending this for anyone else. But if you've been thinking about it: the first week is the hardest. After that it mostly just feels like quiet.</p>
-    `
-  },
-  {
-    id: 4,
-    title: "Notes on Bangalore rain",
-    subtitle: "A small catalog of a specific kind of afternoon.",
-    tag: "Personal",
-    date: "January 19, 2025",
-    readTime: "2 min read",
-    excerpt: "The rain here arrives with an announcement. The sky shifts from white to grey to a particular yellow that means you have about fifteen minutes to get inside.",
-    body: `
-      <p>The rain here arrives with an announcement. The sky shifts from white to grey to a particular yellow that means you have about fifteen minutes to get inside, or accept that you won't be.</p>
-      <p>Then it starts — all at once, not gradually. The sound on corrugated metal roofs is as loud as applause.</p>
-      <p>Petrichor is strongest in the first two minutes. After that you stop noticing it, the way you stop noticing the smell of your own house.</p>
-      <p>Tea tastes different during rain. I don't know why this is true but it is.</p>
-      <p>The traffic on the main road goes silent briefly — not because people stop, but because everyone's thinking about whether to pull over or push through. Then they all decide the same thing at the same time and the noise returns.</p>
-      <p>There is always one person who seems unbothered. No raincoat, no umbrella, walking at normal speed. Sometimes they're on the phone. I find this character deeply admirable.</p>
-      <hr>
-      <p>The best version of an afternoon here: rain outside, something warm in your hands, nothing that needs doing urgently.</p>
-    `
-  }
+  // Add your posts here. Example:
+  // {
+  //   id: 1,
+  //   title: "Your post title",
+  //   subtitle: "A short subtitle.",
+  //   tag: "Topic",
+  //   date: "June 1, 2026",
+  //   readTime: "5 min read",
+  //   excerpt: "A sentence or two shown on the feed card.",
+  //   body: `<p>Your full article HTML here.</p>`
+  // },
 ];
 
 // ─── SITE CONFIG — change these ──────────────────────────────────────────────
 const CONFIG = {
-  blogName: "Your Blog",      // shown in nav
-  authorName: "Your Name",    // shown in sidebar & about
-  bio: "Personal writing. No newsletter, no ads — just posts.",
+  blogName: "",
+  authorName: "Marine Biologist",
+  bio: "",
   tagline: "Writing on things that matter to me.",
 };
 
