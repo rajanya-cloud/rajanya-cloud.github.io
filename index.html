@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1a1916;
+    --bg-card: #201f1c;
+    --bg-hover: #262420;
+    --border: rgba(255,255,255,0.07);
+    --border-soft: rgba(255,255,255,0.04);
+    --text-primary: #e8e4dc;
+    --text-secondary: #9a9488;
+    --text-muted: #5e5a54;
+    --accent: #c9a96e;
+    --accent-soft: rgba(201, 169, 110, 0.12);
+    --tag-bg: rgba(255,255,255,0.05);
+    --font-serif: 'Lora', Georgia, serif;
+    --font-sans: 'Source Sans 3', sans-serif;
+    --max-w: 680px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26, 25, 22, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+  }
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .nav-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 1px solid rgba(201,169,110,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .avatar svg { color: var(--accent); }
+  .blog-name {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .nav-link {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+  .nav-link.active { color: var(--accent); }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 3.5rem;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    main { grid-template-columns: 1fr; gap: 2.5rem; }
+    .sidebar { order: -1; }
+  }
+
+  /* ─── PAGE SECTIONS ─── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─── FEED ─── */
+  .feed-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .feed-title {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+
+  .post-card {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: none;
+    position: relative;
+  }
+  .post-card:first-of-type { padding-top: 0; }
+  .post-card:last-of-type { border-bottom: none; }
+
+  .post-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+  .post-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .post-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .post-title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    transition: color 0.15s;
+  }
+  .post-card:hover .post-title { color: var(--accent); }
+
+  .post-excerpt {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.85rem;
+  }
+  .read-time {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .read-more {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .post-card:hover .read-more { opacity: 1; }
+
+  /* ─── ARTICLE VIEW ─── */
+  #article-view { display: none; }
+  #article-view.active { display: block; }
+
+  .article-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .article-back:hover { color: var(--accent); }
+  .article-back svg { transition: transform 0.15s; }
+  .article-back:hover svg { transform: translateX(-3px); }
+
+  .article-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .article-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .article-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    font-size: 0.83rem;
+    color: var(--text-muted);
+  }
+  .article-meta span { display: flex; align-items: center; gap: 5px; }
+
+  .article-body {
+    font-family: var(--font-serif);
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: #d4cfc7;
+    max-width: var(--max-w);
+  }
+  .article-body p { margin-bottom: 1.5em; }
+  .article-body h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2.25em 0 0.75em;
+    line-height: 1.3;
+  }
+  .article-body h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1.75em 0 0.5em;
+  }
+  .article-body blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.25rem 0 0.25rem 1.5rem;
+    margin: 2em 0;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 1.12rem;
+  }
+  .article-body code {
+    font-size: 0.88em;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: #c9a96e;
+  }
+  .article-body pre {
+    background: #14131100;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.75em 0;
+  }
+  .article-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(201,169,110,0.4); }
+  .article-body a:hover { text-decoration-color: var(--accent); }
+  .article-body ul, .article-body ol {
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  .article-body li { margin-bottom: 0.4em; }
+  .article-body hr {
+    border: none;
+    text-align: center;
+    margin: 2.5em 0;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.4em;
+  }
+  .article-body hr::before { content: '· · ·'; }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { position: sticky; top: 72px; }
+
+  .sidebar-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 2px solid rgba(201,169,110,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+  .sidebar-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .sidebar-avatar:hover .avatar-hint { opacity: 1; }
+  .avatar-hint {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 0.65rem;
+    color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+  }
+  .sidebar-name {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+  }
+  .sidebar-bio {
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .sidebar-edit-link {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 20px;
+    transition: color 0.15s, border-color 0.15s;
+    display: inline-block;
+  }
+  .sidebar-edit-link:hover { color: var(--accent); border-color: rgba(201,169,110,0.3); }
+
+  .sidebar-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.9rem;
+  }
+  .topic-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .topic-chip {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic-chip:hover, .topic-chip.active {
+    color: var(--accent);
+    border-color: rgba(201,169,110,0.35);
+    background: var(--accent-soft);
+  }
+
+  .archive-list { list-style: none; }
+  .archive-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .archive-item:last-child { border-bottom: none; }
+  .archive-item:hover { color: var(--accent); }
+  .archive-count {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── ABOUT PAGE ─── */
+  .about-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 2px solid rgba(201,169,110,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+  }
+  .about-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .about-avatar:hover .avatar-hint { opacity: 1; }
+  .about-name {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  .about-tagline {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+  .about-body {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #d0ccc4;
+    max-width: var(--max-w);
+  }
+  .about-body p { margin-bottom: 1.4em; }
+
+  /* ─── PROFILE PICTURE UPLOAD ─── */
+  .upload-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .upload-overlay.open { display: flex; }
+  .upload-modal {
+    background: #242320;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 380px;
+    margin: 1rem;
+  }
+  .upload-modal h3 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+  }
+  .upload-modal p {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .upload-drop {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    margin-bottom: 1rem;
+  }
+  .upload-drop:hover { border-color: rgba(201,169,110,0.4); }
+  .upload-drop-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+  .upload-drop-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: 0.3rem;
+  }
+  #avatar-file-input { display: none; }
+  .upload-preview {
+    display: none;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .upload-preview img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(201,169,110,0.3);
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .btn {
+    font-size: 0.82rem;
+    font-family: var(--font-sans);
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+  }
+  .btn-ghost:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+  .btn-accent {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: rgba(201,169,110,0.3);
+  }
+  .btn-accent:hover { background: rgba(201,169,110,0.2); }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #383632; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4a4740; }
+</style>
+</head>
+<body>
+
+<!-- PROFILE PICTURE UPLOAD MODAL -->
+<div class="upload-overlay" id="uploadOverlay">
+  <div class="upload-modal">
+    <h3>Profile picture</h3>
+    <p>Shown on your blog header and sidebar. Only you see this — saved in your browser.</p>
+    <div class="upload-drop" id="uploadDrop" onclick="document.getElementById('avatar-file-input').click()">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.5)" stroke-width="1.5" style="margin: 0 auto; display: block;">
+        <path d="M20 16v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="8" x2="12" y2="20"/>
+      </svg>
+      <div class="upload-drop-text">Click to choose a photo</div>
+      <div class="upload-drop-hint">JPG, PNG, WebP · max 5MB</div>
+    </div>
+    <div class="upload-preview" id="uploadPreview">
+      <img id="uploadPreviewImg" src="" alt="Preview">
+      <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem;">Looks good?</div>
+    </div>
+    <input type="file" id="avatar-file-input" accept="image/*">
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeUpload()">Cancel</button>
+      <button class="btn btn-accent" id="saveAvatarBtn" onclick="saveAvatar()" style="display:none">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-profile" onclick="showPage('home'); return false;">
+      <div class="avatar" id="navAvatar">
+        <img id="navAvatarImg" src="" alt="">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <span class="blog-name" id="blogNameDisplay">Your Blog</span>
+    </a>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" id="nav-home" onclick="showPage('home'); return false;">Writing</a>
+      <a href="#" class="nav-link" id="nav-about" onclick="showPage('about'); return false;">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <!-- LEFT COLUMN -->
+  <div class="content-col">
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="feed-header">
+        <div class="feed-title">All posts</div>
+      </div>
+      <div id="posts-feed"></div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div class="page" id="page-about">
+      <div class="about-header">
+        <div class="about-avatar" id="aboutAvatar" onclick="openUpload()" title="Update profile picture">
+          <img id="aboutAvatarImg" src="" alt="">
+          <div class="avatar-hint">Change</div>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.6)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div>
+          <div class="about-name" id="aboutNameDisplay">Your Name</div>
+          <div class="about-tagline" id="aboutTaglineDisplay">Writing on things that matter to me.</div>
+        </div>
+      </div>
+      <div class="about-body" id="aboutBodyDisplay">
+        <p>Welcome. This is a personal space where I put down thoughts I'd otherwise lose — observations, half-formed ideas, things I'm reading, and occasionally something I actually finished thinking through.</p>
+        <p>I write because it's the only way I know how to understand what I believe. The audience is mostly future me, but if something resonates with you, all the better.</p>
+        <p>You can reach me on <a href="https://github.com" style="color: var(--accent);">GitHub</a> — the source for this blog lives there too.</p>
+      </div>
+    </div>
+
+    <!-- ARTICLE VIEW -->
+    <div id="article-view">
+      <button class="article-back" onclick="closeArticle()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+        All posts
+      </button>
+      <div id="article-content"></div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar" id="sidebarAvatar" onclick="openUpload()" title="Update profile picture">
+        <img id="sidebarAvatarImg" src="" alt="">
+        <div class="avatar-hint">Change</div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.6)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="sidebar-name" id="sidebarNameDisplay">Your Name</div>
+      <div class="sidebar-bio" id="sidebarBioDisplay">Personal writing. No newsletter, no ads — just posts.</div>
+      <a href="#" class="sidebar-edit-link" onclick="openUpload(); return false;">+ Add profile picture</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Topics</div>
+      <div class="topic-list" id="topicList"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Archive</div>
+      <ul class="archive-list" id="archiveList"></ul>
+    </div>
+  </aside>
+</main>
+
+<script>
+// ─── POSTS DATA — edit this to add your posts ───────────────────────────────
+// To add a post: copy one object, change the fields, save the file.
+const POSTS = [
+  {
+    id: 1,
+    title: "On writing badly, and doing it anyway",
+    subtitle: "The first draft is always embarrassing. That's not a problem — it's the whole point.",
+    tag: "Writing",
+    date: "May 28, 2025",
+    readTime: "4 min read",
+    excerpt: "Every piece I've ever written started as something I was ashamed to show anyone. The gap between what you know is good and what you can currently make — that gap is the thing that either stops you or pushes you.",
+    body: `
+      <p>Every piece I've ever written started as something I was ashamed to show anyone. There's a quote attributed to Ira Glass that describes this better than I can: the gap between your taste and your ability. You got into writing because your taste is good. You can recognize quality. And for a long time, your work doesn't meet it.</p>
+      <p>Most people stop there. I almost did.</p>
+      <h2>The first draft is a placeholder</h2>
+      <p>The purpose of a first draft is not to be good. It's to exist. Once words are on a page, you have material to work with. The blank page has no such affordance.</p>
+      <p>I started keeping a rule: close the tab, open a new document, write for 20 minutes without deleting. Whatever comes out is the first draft. It will be bad. That's allowed.</p>
+      <blockquote>You can't edit a blank page. The worst thing you wrote today is infinitely better than the best thing you didn't write.</blockquote>
+      <p>The second draft is where the work actually begins. Cut the preamble. Sharpen the sentences. Find the real claim hiding inside the vague one.</p>
+      <h2>Showing it anyway</h2>
+      <p>The other thing that helped was deciding that "finished" and "perfect" are different categories. Something can be finished without being perfect. In fact, perfect things are almost never finished — they're just abandoned at a different point in the revision cycle.</p>
+      <p>Publishing bad writing in public is uncomfortable. It's also the fastest way I know to get better. The feedback loop tightens dramatically when real people read your work instead of the imaginary readers in your head.</p>
+      <hr>
+      <p>Write badly. Publish anyway. The good stuff compounds over time.</p>
+    `
+  },
+  {
+    id: 2,
+    title: "Three things I learned from keeping a reading log",
+    subtitle: "Notes on what tracking your reading actually reveals about yourself.",
+    tag: "Reading",
+    date: "April 14, 2025",
+    readTime: "6 min read",
+    excerpt: "I've kept a reading log for two years now — just a plain text file with the title, author, date finished, and a few sentences of reaction. The main thing it taught me was how little I retained without it.",
+    body: `
+      <p>I've kept a reading log for two years now. Nothing fancy — a plain text file with the title, author, date finished, and a few sentences of immediate reaction. No star ratings. No summaries. Just a brief note written while the book was still warm.</p>
+      <p>Some things I've learned:</p>
+      <h2>1. You forget almost everything</h2>
+      <p>This is the uncomfortable one. Looking back at books I read 18 months ago, I find notes describing scenes I have no memory of. Entire arguments have evaporated. What remains are impressions — a mood, a phrase, a feeling about whether the book was worth it.</p>
+      <p>Writing the note doesn't fix this entirely, but it leaves a hook. When I re-read my entry, some things come back.</p>
+      <h2>2. Your taste is more consistent than you think</h2>
+      <p>After two years of notes, I can see patterns. I'm consistently drawn to books written in the first person, to work that takes ideas seriously without being academic, and to authors who seem to have actually lived their subject rather than researched it.</p>
+      <p>This is useful. I now trust those patterns enough to use them as a filter before starting something new.</p>
+      <h2>3. The log changes how you read</h2>
+      <p>Knowing you'll write a note makes you slightly more alert while reading. Not critically alert — more like attentive. You start noticing when something lands particularly well, or when a chapter goes slack.</p>
+      <blockquote>The best reading is already a form of conversation. The log just gives you someone to talk to afterward — your past self.</blockquote>
+      <p>The format I use: one sentence on what the book is, one sentence on what surprised me, one sentence on whether I'd recommend it and to whom. Ninety seconds of writing that I've been grateful for dozens of times.</p>
+    `
+  },
+  {
+    id: 3,
+    title: "Why I deleted Twitter and what I replaced it with",
+    subtitle: "Not a lecture. Just what happened.",
+    tag: "Tech",
+    date: "March 3, 2025",
+    readTime: "3 min read",
+    excerpt: "I was checking it first thing in the morning and last thing at night. Not because I wanted to — just because the motion had become automatic, like reaching for a light switch.",
+    body: `
+      <p>I was checking Twitter first thing in the morning and last thing at night. Not because I wanted to — just because the motion had become automatic. Thumb moves, app opens. Like reaching for a light switch when you leave a room.</p>
+      <p>The content had also shifted. The ratio of things I was glad I read to things that just made me vaguely agitated had inverted somewhere over the past year. I wasn't learning much. I was mostly just absorbing other people's reactions to the news.</p>
+      <h2>What I did</h2>
+      <p>I deleted the app. Not my account — just the app. The friction of opening a browser, navigating to the site, and logging in was enough to interrupt the automatic motion.</p>
+      <p>For about two weeks I missed it. Mostly during commutes and waiting in lines — the dead time I'd been filling with scroll. I picked up a book instead. Old habit, remembered.</p>
+      <h2>What I replaced it with</h2>
+      <p>RSS. Specifically, a feed of maybe 15 blogs and newsletters from people I'd found interesting over the years. They post infrequently. The writing is longer. The incentive structure isn't optimized for outrage.</p>
+      <p>It's a worse product in every measurable way — slower, fewer updates, no replies, no virality. I find it much more enjoyable.</p>
+      <hr>
+      <p>I'm not recommending this for anyone else. But if you've been thinking about it: the first week is the hardest. After that it mostly just feels like quiet.</p>
+    `
+  },
+  {
+    id: 4,
+    title: "Notes on Bangalore rain",
+    subtitle: "A small catalog of a specific kind of afternoon.",
+    tag: "Personal",
+    date: "January 19, 2025",
+    readTime: "2 min read",
+    excerpt: "The rain here arrives with an announcement. The sky shifts from white to grey to a particular yellow that means you have about fifteen minutes to get inside.",
+    body: `
+      <p>The rain here arrives with an announcement. The sky shifts from white to grey to a particular yellow that means you have about fifteen minutes to get inside, or accept that you won't be.</p>
+      <p>Then it starts — all at once, not gradually. The sound on corrugated metal roofs is as loud as applause.</p>
+      <p>Petrichor is strongest in the first two minutes. After that you stop noticing it, the way you stop noticing the smell of your own house.</p>
+      <p>Tea tastes different during rain. I don't know why this is true but it is.</p>
+      <p>The traffic on the main road goes silent briefly — not because people stop, but because everyone's thinking about whether to pull over or push through. Then they all decide the same thing at the same time and the noise returns.</p>
+      <p>There is always one person who seems unbothered. No raincoat, no umbrella, walking at normal speed. Sometimes they're on the phone. I find this character deeply admirable.</p>
+      <hr>
+      <p>The best version of an afternoon here: rain outside, something warm in your hands, nothing that needs doing urgently.</p>
+    `
+  }
+];
+
+// ─── SITE CONFIG — change these ──────────────────────────────────────────────
+const CONFIG = {
+  blogName: "Your Blog",      // shown in nav
+  authorName: "Your Name",    // shown in sidebar & about
+  bio: "Personal writing. No newsletter, no ads — just posts.",
+  tagline: "Writing on things that matter to me.",
+};
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+let currentPage = 'home';
+
+function init() {
+  // Apply config
+  document.title = CONFIG.blogName;
+  document.getElementById('blogNameDisplay').textContent = CONFIG.blogName;
+  document.getElementById('sidebarNameDisplay').textContent = CONFIG.authorName;
+  document.getElementById('aboutNameDisplay').textContent = CONFIG.authorName;
+  document.getElementById('sidebarBioDisplay').textContent = CONFIG.bio;
+  document.getElementById('aboutTaglineDisplay').textContent = CONFIG.tagline;
+
+  // Load saved avatar
+  const savedAvatar = localStorage.getItem('blog-avatar');
+  if (savedAvatar) setAllAvatars(savedAvatar);
+
+  renderFeed();
+  renderTopics();
+  renderArchive();
+}
+
+function renderFeed(filter = null) {
+  const feed = document.getElementById('posts-feed');
+  const posts = filter ? POSTS.filter(p => p.tag === filter) : POSTS;
+  feed.innerHTML = posts.map(post => `
+    <div class="post-card" onclick="openArticle(${post.id})">
+      <div class="post-meta-top">
+        <span class="post-tag">${post.tag}</span>
+        <span class="post-date">${post.date}</span>
+      </div>
+      <div class="post-title">${post.title}</div>
+      <div class="post-excerpt">${post.excerpt}</div>
+      <div class="post-footer">
+        <span class="read-time">${post.readTime}</span>
+        <span class="read-more">Read →</span>
+      </div>
+    </div>
+  `).join('');
+  const title = document.querySelector('.feed-title');
+  if (title) title.textContent = filter ? `#${filter}` : 'All posts';
+}
+
+function renderTopics() {
+  const tags = [...new Set(POSTS.map(p => p.tag))];
+  document.getElementById('topicList').innerHTML =
+    tags.map(t => `<span class="topic-chip" onclick="filterByTag('${t}', this)">${t}</span>`).join('');
+}
+
+function filterByTag(tag, el) {
+  const chips = document.querySelectorAll('.topic-chip');
+  chips.forEach(c => c.classList.remove('active'));
+  if (el.classList.contains('active-tag')) {
+    el.classList.remove('active-tag');
+    renderFeed(null);
+  } else {
+    chips.forEach(c => c.dataset.tag === tag && c.classList.add('active'));
+    el.classList.add('active', 'active-tag');
+    renderFeed(tag);
+    showPage('home');
+  }
+}
+
+function renderArchive() {
+  const months = {};
+  POSTS.forEach(p => {
+    const m = p.date.split(' ').slice(0,2).join(' ');
+    months[m] = (months[m] || 0) + 1;
+  });
+  document.getElementById('archiveList').innerHTML =
+    Object.entries(months).map(([m, c]) => `
+      <li class="archive-item"><span>${m}</span><span class="archive-count">${c} post${c>1?'s':''}</span></li>
+    `).join('');
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('article-view').classList.remove('active');
+  document.getElementById('article-view').style.display = 'none';
+
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) {
+    pageEl.classList.add('active');
+    pageEl.style.display = 'block';
+  }
+
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  currentPage = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openArticle(id) {
+  const post = POSTS.find(p => p.id === id);
+  if (!post) return;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+  const av = document.getElementById('article-view');
+  av.style.display = 'block';
+  av.classList.add('active');
+
+  document.getElementById('article-content').innerHTML = `
+    <div class="article-tag">${post.tag}</div>
+    <h1 class="article-title">${post.title}</h1>
+    ${post.subtitle ? `<p class="article-subtitle">${post.subtitle}</p>` : ''}
+    <div class="article-meta">
+      <span>${post.date}</span>
+      <span>·</span>
+      <span>${post.readTime}</span>
+    </div>
+    <div class="article-body">${post.body}</div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeArticle() {
+  document.getElementById('article-view').classList.remove('active');
+  document.getElementById('article-view').style.display = 'none';
+  showPage('home');
+}
+
+// ─── PROFILE PICTURE ─────────────────────────────────────────────────────────
+let pendingAvatarDataURL = null;
+
+function openUpload() {
+  document.getElementById('uploadOverlay').classList.add('open');
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('saveAvatarBtn').style.display = 'none';
+  document.getElementById('uploadDrop').style.display = 'block';
+  pendingAvatarDataURL = null;
+}
+
+function closeUpload() {
+  document.getElementById('uploadOverlay').classList.remove('open');
+  document.getElementById('avatar-file-input').value = '';
+}
+
+document.getElementById('avatar-file-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    pendingAvatarDataURL = ev.target.result;
+    document.getElementById('uploadPreviewImg').src = pendingAvatarDataURL;
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('uploadDrop').style.display = 'none';
+    document.getElementById('saveAvatarBtn').style.display = 'inline-block';
+  };
+  reader.readAsDataURL(file);
+});
+
+function saveAvatar() {
+  if (!pendingAvatarDataURL) return;
+  localStorage.setItem('blog-avatar', pendingAvatarDataURL);
+  setAllAvatars(pendingAvatarDataURL);
+  closeUpload();
+}
+
+function setAllAvatars(src) {
+  ['navAvatarImg','sidebarAvatarImg','aboutAvatarImg'].forEach(id => {
+    const img = document.getElementById(id);
+    if (img) { img.src = src; img.style.display = 'block'; }
+  });
+  // hide placeholder SVGs
+  document.querySelectorAll('.avatar svg, .sidebar-avatar > svg, .about-avatar > svg').forEach(svg => {
+    svg.style.display = 'none';
+  });
+}
+
+// ─── DRAG-AND-DROP on upload modal ───────────────────────────────────────────
+const drop = document.getElementById('uploadDrop');
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.style.borderColor = 'rgba(201,169,110,0.5)'; });
+drop.addEventListener('dragleave', () => { drop.style.borderColor = ''; });
+drop.addEventListener('drop', e => {
+  e.preventDefault();
+  drop.style.borderColor = '';
+  const file = e.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingAvatarDataURL = ev.target.result;
+    document.getElementById('uploadPreviewImg').src = pendingAvatarDataURL;
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('uploadDrop').style.display = 'none';
+    document.getElementById('saveAvatarBtn').style.display = 'inline-block';
+  };
+  reader.readAsDataURL(file);
+});
+
+// Close overlay on backdrop click
+document.getElementById('uploadOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeUpload();
+});
+
+init();
+</script>
+</body>
+</html>
