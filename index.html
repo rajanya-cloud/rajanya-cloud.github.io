@@ -483,51 +483,6 @@
   }
 
   /* ─── ABOUT PAGE ─── */
-  .about-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .about-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--accent-soft);
-    border: 2px solid rgba(201,169,110,0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-    cursor: pointer;
-    position: relative;
-  }
-  .about-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
-  .about-avatar:hover .avatar-hint { opacity: 1; }
-  .about-name {
-    font-family: var(--font-serif);
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-  }
-  .about-tagline {
-    font-size: 0.92rem;
-    color: var(--text-secondary);
-    font-style: italic;
-    font-family: var(--font-serif);
-  }
-  .about-body {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: #d0ccc4;
-    max-width: var(--max-w);
-  }
-  .about-body p { margin-bottom: 1.4em; }
 
   /* ─── PROFILE PICTURE UPLOAD ─── */
   .upload-overlay {
@@ -669,7 +624,6 @@
     </a>
     <div class="nav-links">
       <a href="#" class="nav-link active" id="nav-home" onclick="showPage('home'); return false;">Writing</a>
-      <a href="#" class="nav-link" id="nav-about" onclick="showPage('about'); return false;">About</a>
     </div>
   </div>
 </nav>
@@ -685,26 +639,6 @@
         <div class="feed-title">All posts</div>
       </div>
       <div id="posts-feed"></div>
-    </div>
-
-    <!-- ABOUT PAGE -->
-    <div class="page" id="page-about">
-      <div class="about-header">
-        <div class="about-avatar" id="aboutAvatar" onclick="openUpload()" title="Update profile picture">
-          <img id="aboutAvatarImg" src="" alt="">
-          <div class="avatar-hint">Change</div>
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.6)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        </div>
-        <div>
-          <div class="about-name" id="aboutNameDisplay">Marine Biologist</div>
-          <div class="about-tagline" id="aboutTaglineDisplay">Writing on things that matter to me.</div>
-        </div>
-      </div>
-      <div class="about-body" id="aboutBodyDisplay">
-        <p>Welcome. This is a personal space where I put down thoughts I'd otherwise lose — observations, half-formed ideas, things I'm reading, and occasionally something I actually finished thinki[...]
-        <p>I write because it's the only way I know how to understand what I believe. The audience is mostly future me, but if something resonates with you, all the better.</p>
-        <p>You can reach me on <a href="https://github.com" style="color: var(--accent);">GitHub</a> — the source for this blog lives there too.</p>
-      </div>
     </div>
 
     <!-- ARTICLE VIEW -->
@@ -746,17 +680,53 @@
 // ─── POSTS DATA — edit this to add your posts ───────────────────────────────
 // To add a post: copy one object, change the fields, save the file.
 const POSTS = [
-  // Add your posts here. Example:
-  // {
-  //   id: 1,
-  //   title: "Your post title",
-  //   subtitle: "A short subtitle.",
-  //   tag: "Topic",
-  //   date: "June 1, 2026",
-  //   readTime: "5 min read",
-  //   excerpt: "A sentence or two shown on the feed card.",
-  //   body: `<p>Your full article HTML here.</p>`
-  // },
+  {
+    id: 1,
+    title: "Vedic and MesoAmerican Civilizations",
+    subtitle: "Two worlds apart, one pattern beneath.",
+    tag: "History",
+    date: "June 1, 2026",
+    readTime: "8 min read",
+    excerpt: "Observers have noticed many similarities between Vedic and MesoAmerican cultures — calendrical systems, layered rituals, astronomy, mathematics, and a pantheon of gods. The distance between India and South America suggests an instrumental force must have facilitated this exchange.",
+    body: `
+      <h2>Abstract</h2>
+      <p>Vedic culture is well documented in the vast literature known as the Vedas. Likewise, many distinct civilizations took shape in the Americas and some of the narratives of those cultures survive today. Observers like me have noticed many similarities between the two cultures, two civilizations, two narratives. For instance, both cultures used Vastu, complex calendrical systems, engaged in and conducted layered rituals, and had a very deep understanding of astronomy and mathematics. Both cultures worshipped multiple gods. The significant amount of distance between India and South America suggests that an instrumental force must have facilitated a possible exchange of culture and ideas.</p>
+
+      <h2>1. Introduction</h2>
+      <p>What I have noticed, read about, and gathered information about goes as follows.</p>
+      <p>The language name "Nahuatl" could have come from the Sanskrit <em>nava tala</em>, meaning "new land." There are also a few other similarities between Mayan words and Sanskrit words. The Incas have a word they use called <em>Viracocha</em>. It carries the civilizational memory of the Gods who came from foreign lands via the oceans to civilize the Incas. The Vedas and Puranas say that Virocana and Mahābali left India to establish kingdoms in faraway lands — possibly the Americas.</p>
+
+      <h2>2. What We Know</h2>
+      <p>Thanks to deep-search engines, I could easily find out what is known to us for now without having to doomscroll through thousands of historical archives and PDFs.</p>
+      <p>Until recently, historians were convinced that a land bridge from Asia to North America existed more than 12 millennia ago. The assumption beforehand was that these Asian migrants crossed this bridge to come to North America, and then proceeded on to South America sometime around the 13th millennium BCE. Then, evidence of human settlement in Monte Verde in Chile from the 15th millennium BCE was found.</p>
+      <p><em>Curcuma longa</em>, the botanical name of common turmeric, is a plant known to originate in Asia, and its most extensive use is in India since time immemorial. Australasian migrants into South America brought this plant along with them, and tribes in Peru — such as the Amahuaca tribe — were found to be using it as a dye plant for body painting, and in some cases as face paint for religious dances, before the Europeans came to South America.</p>
+
+      <h2>3. Ramayana Talks About It</h2>
+      <p>In the Kiṣkindhā Kānḍa of the Ramayana, when Sugrīva gives instructions to members of his army's search party to look for Sīta, he describes places that resemble faraway places like Europe, the Arctic Circle, and many places in Southeast Asia, Australia, and the Pacific Ocean, leading up to South America. This paper will focus solely on Sugrīva's remarks about South America. The Rāmāyaṇa provides no evidence to suggest that Sugrīva's search party actually traveled to South America.</p>
+      <p>On a seaside mountain belonging to the Andes Mountains in Peru, a massive geoglyph is etched in the petrified sand face of the mountain, measuring 600 feet tall and 2 feet deep. This is known as the Candelabra of the Andes, or the Paracas Candelabra, since it is located near the Peruvian town of Paracas. The age of this geoglyph is unknown, and the best historians have come up with is dating it to around 200 BCE — purely based on speculation, because pottery of that age was found near that mountain. This date of 200 BCE is clearly incorrect.</p>
+      <p>A Sanskrit shloka in Valmiki's Ramayana describes a golden pylon resembling a palm tree with three branches as its head. It describes a Vedic havan shape at the bottom — the rectangular box shape visible at the bottom of this etching. This eerily describes and closely resembles the geoglyph we see as the Candelabra of the Andes today. The geoglyph may have been used as a guide for navigators back in prehistoric times.</p>
+
+      <h2>4. What Do the People Who Matter Say About All This</h2>
+      <p>Again, thanks to AI deep-search, I could find many quotes and conclusions drawn by scholars and historians claiming that native American civilization was in fact of Indian origins.</p>
+      <ul>
+        <li>David Sopher noted in 1950 that "the evidence for a pre-European, transpacific introduction of the plant by man seems very strong indeed."</li>
+        <li>Scholar Miles Poindexter, a former United States ambassador to Mexico, called the Maya civilization "unquestionably Hindu" in his two-volume 1930s treatise titled <em>The Ayar Incas</em>.</li>
+        <li>In 1849, the United States Chargé d'Affaires to Central America, Ephraim George Squier, wrote: "A proper examination of these monuments would disclose the fact that in their interior as well as their exterior form and obvious purposes, these buildings (temples in Palenque, Mexico) correspond with great exactness to those of Hindustan…"</li>
+        <li>Scholar Ramon Mena, author of <em>Synthesis of Mexican Archaeology</em>, called the Nahuatl, Zapotec, and Mayan languages "of Hindu origin." According to Mena, "A deep mystery enfolds the tribes that inhabited the state of Chiapas in the district named Palenque… their writing, and the anthropological type, as well as their personal adornments… their system and style of construction clearly indicate the remotest antiquity… all speak of India and the Orient."</li>
+        <li>Maya and Hindu temples were adorned with similar decorations and offered animal sacrifices in similar manners. This sacrifice was determined by the same stars and done simultaneously. Maya "scorpion stars" were the same as the constellation Scorpio on Hindu charts.</li>
+        <li>Phallic structures were discovered at the Uxmal site in Yucatan, but were removed by authorities in the late 19th century. Hindu culture worships phallic structures through the form of Shiva lingams, representations of Lord Shiva.</li>
+        <li>In 1911, renowned mineralogist and archaeologist William Niven discovered ancient ruins beneath volcanic ash near Azcapotzalco in Mexico. Some of the stone tablets recovered from the buried city had photographs of the classic swastika used in India to this date.</li>
+      </ul>
+
+      <h2>5. Conclusion</h2>
+      <p>This attempt to write about similarities between ancient Vedic and South American civilizations tries to understand the extent to which the two groups were connected. There are many similarities between ancient Indian and South American cultures — in language, gods and goddesses, customs and practices, beliefs, and symbols.</p>
+      <p>All these common customs and features support the theory that even though India and South America are on entirely different continents, their interactions proved to be a means of exchanging knowledge and customs that continue to shape both cultures' lifestyles today.</p>
+      <p>If similarities in culture are strongly evident, and travel was possible and is mentioned in literature, one can conclude that there was a strong connection and cultural exchange between India and South America during ancient times — going back many millennia, quite possibly 15 millennia. This paper has merely gathered information available on the internet and pointed to the tip of this 'connection between India and the Americas' iceberg.</p>
+      <p>The history is fascinating and we are just starting to find out. I do feel like Erwin Smith from Attack on Titan when he discovered the titans under the walls — similarly, this earth has been hiding our history from us, buried underneath it. We may not be able to uncover our truth at all, but at least we will remember this dopamine and this rush we got from searching, trying to uncover and point out patterns through recognition.</p>
+      <hr>
+      <p><em>Journey mogs Destination ✌️</em></p>
+    `
+  }
 ];
 
 // ─── SITE CONFIG — change these ──────────────────────────────────────────────
@@ -774,8 +744,6 @@ function init() {
   // Apply config
   document.title = CONFIG.blogName;
   document.getElementById('sidebarNameDisplay').textContent = CONFIG.authorName;
-  document.getElementById('aboutNameDisplay').textContent = CONFIG.authorName;
-  document.getElementById('aboutTaglineDisplay').textContent = CONFIG.tagline;
 
   // Load saved avatar from localStorage first, fallback to repo image
   const savedAvatar = localStorage.getItem('blog-avatar');
@@ -931,7 +899,7 @@ function saveAvatar() {
 }
 
 function setAllAvatars(src) {
-  ['navAvatarImg','sidebarAvatarImg','aboutAvatarImg'].forEach(id => {
+  ['navAvatarImg','sidebarAvatarImg'].forEach(id => {
     const img = document.getElementById(id);
     if (img) { img.src = src; img.style.display = 'block'; }
   });
