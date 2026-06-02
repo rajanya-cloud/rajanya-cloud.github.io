@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a1916">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Marine Biologist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -584,6 +587,160 @@
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: #383632; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #4a4740; }
+
+  /* ─── PAGE TRANSITION ─── */
+  .page, #article-view {
+    animation: none;
+  }
+  .page.active, #article-view.active {
+    animation: fadeSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ════════════════════════════════════════════
+     MOBILE — everything below only fires on
+     phones/narrow viewports. Desktop unchanged.
+  ════════════════════════════════════════════ */
+  @media (max-width: 720px) {
+
+    /* Smooth momentum scrolling on iOS */
+    html { -webkit-overflow-scrolling: touch; }
+
+    /* Remove tap highlight flash on Android/iOS */
+    * { -webkit-tap-highlight-color: transparent; }
+
+    /* Body padding for iOS home-indicator */
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 0 1rem;
+      /* extend behind iOS notch */
+      padding-top: env(safe-area-inset-top);
+    }
+    .nav-inner {
+      height: 52px;
+      max-width: 100%;
+    }
+    /* hide the "Writing" nav text link on mobile — avatar alone navigates home */
+    .nav-links { display: none; }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 1.75rem 1rem 5rem;
+    }
+
+    /* Hide sidebar entirely on mobile */
+    .sidebar { display: none; }
+
+    /* ── FEED ── */
+    .feed-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+    }
+    .feed-title { font-size: 0.9rem; }
+
+    .post-card {
+      padding: 1.35rem 0;
+      /* bigger touch target feel — subtle press state */
+      transition: opacity 0.12s ease;
+    }
+    .post-card:active { opacity: 0.7; }
+
+    .post-title { font-size: 1.2rem; }
+    .post-excerpt { font-size: 0.9rem; -webkit-line-clamp: 3; }
+
+    /* Always show "Read →" on mobile (no hover) */
+    .read-more { opacity: 1; }
+
+    /* ── ARTICLE VIEW ── */
+    #article-view {
+      /* slide in from right on mobile */
+      animation: none;
+    }
+    #article-view.active {
+      animation: slideInFromRight 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes slideInFromRight {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .article-back {
+      font-size: 0.78rem;
+      margin-bottom: 1.5rem;
+      padding: 8px 0; /* bigger tap target */
+    }
+
+    .article-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+
+    .article-meta {
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0.9rem 0;
+      margin-bottom: 1.75rem;
+      font-size: 0.78rem;
+    }
+
+    .article-body {
+      font-size: 1rem;
+      line-height: 1.82;
+    }
+    .article-body h2 {
+      font-size: 1.2rem;
+      margin: 2em 0 0.6em;
+    }
+    .article-body h3 { font-size: 1.05rem; }
+    .article-body blockquote {
+      padding-left: 1rem;
+      font-size: 1.02rem;
+    }
+    .article-body ul,
+    .article-body ol { padding-left: 1.25em; }
+
+    /* ── UPLOAD MODAL ── */
+    .upload-modal {
+      border-radius: 20px 20px 0 0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 100%;
+      margin: 0;
+      padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom));
+      /* slide up from bottom on mobile */
+      animation: sheetSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes sheetSlideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    .upload-overlay.open {
+      align-items: flex-end;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      /* minimum 44px tap target (Apple HIG) */
+      min-height: 44px;
+    }
+
+    /* ── TOPIC CHIPS ── */
+    .topic-chip {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -697,7 +854,7 @@ const POSTS = [
       <p>The language name "Nahuatl" could have come from the Sanskrit <em>nava tala</em>, meaning "new land." There are also a few other similarities between Mayan words and Sanskrit words. The Incas have a word they use called <em>Viracocha</em>. It carries the civilizational memory of the Gods who came from foreign lands via the oceans to civilize the Incas. The Vedas and Puranas say that Virocana and Mahābali left India to establish kingdoms in faraway lands — possibly the Americas.</p>
 
       <h2>2. What We Know</h2>
-      <p>Using deepsearch I could easily find out what is known to us for now without having to skimming  through thousands of historical archives and PDFs.</p>
+      <p>Thanks to deep-search engines, I could easily find out what is known to us for now without having to doomscroll through thousands of historical archives and PDFs.</p>
       <p>Until recently, historians were convinced that a land bridge from Asia to North America existed more than 12 millennia ago. The assumption beforehand was that these Asian migrants crossed this bridge to come to North America, and then proceeded on to South America sometime around the 13th millennium BCE. Then, evidence of human settlement in Monte Verde in Chile from the 15th millennium BCE was found.</p>
       <p><em>Curcuma longa</em>, the botanical name of common turmeric, is a plant known to originate in Asia, and its most extensive use is in India since time immemorial. Australasian migrants into South America brought this plant along with them, and tribes in Peru — such as the Amahuaca tribe — were found to be using it as a dye plant for body painting, and in some cases as face paint for religious dances, before the Europeans came to South America.</p>
 
@@ -838,7 +995,10 @@ function openArticle(id) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
   const av = document.getElementById('article-view');
+  // Re-trigger animation by removing and re-adding active
+  av.classList.remove('active');
   av.style.display = 'block';
+  void av.offsetWidth; // force reflow
   av.classList.add('active');
 
   document.getElementById('article-content').innerHTML = `
